@@ -1,4 +1,3 @@
-
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
@@ -17,6 +16,7 @@ connection.connect(function (err) {
     console.log('Connected to the database.');
 });
 
+// Get all users
 function getUsers(callback) {
     const sql = 'SELECT userID, fname, lname, username, passwd FROM users';
 
@@ -27,11 +27,11 @@ function getUsers(callback) {
             return;
         }
 
-        console.log(results);
         callback(results);
     });
 }
 
+// Add a user
 function addUser(user, callback) {
     const sql = 'INSERT INTO users (fname, lname, username, passwd) VALUES (?, ?, ?, ?)';
 
@@ -42,7 +42,7 @@ function addUser(user, callback) {
         user.passwd || ''
     ];
 
-    connection.query(sql, values, function (err, results) {
+    connection.execute(sql, values, function (err, results) {
         if (err) {
             console.error('Error adding user:', err.message);
             return;
@@ -52,4 +52,18 @@ function addUser(user, callback) {
     });
 }
 
-module.exports = { getUsers, addUser };
+// Delete a user
+function deleteUser(userID, callback) {
+    const sql = 'DELETE FROM users WHERE userID = ?';
+
+    connection.execute(sql, [userID], function (err, results) {
+        if (err) {
+            console.error('Error deleting user:', err.message);
+            return;
+        }
+
+        callback(results);
+    });
+}
+
+module.exports = { getUsers, addUser, deleteUser };

@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 
@@ -21,67 +20,51 @@
     </nav>
 
     <div class="container">
-        <div class="row">
 
-            <!-- Form on the left -->
-            <div class="col-4 bg-light p-3">
-                <form action="/users" method="post">
+        <a href="/users/new" class="btn btn-primary mb-2">
+            Add User
+        </a>
 
-                    <div class="form-group m-2">
-                        <label for="fname">First Name</label>
-                        <input type="text" class="form-control"
-                            id="fname" name="fname">
-                    </div>
+        <table class="table table-striped">
 
-                    <div class="form-group m-2">
-                        <label for="lname">Last Name</label>
-                        <input type="text" class="form-control"
-                            id="lname" name="lname">
-                    </div>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>User Name</th>
+                    <th>Password</th>
+                    <th></th>
+                </tr>
+            </thead>
 
-                    <div class="form-group m-2">
-                        <label for="username">User Name</label>
-                        <input type="text" class="form-control"
-                            id="username" name="username">
-                    </div>
+            <tbody>
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.userID %></td>
+                        <td><%= user.fname %></td>
+                        <td><%= user.lname %></td>
+                        <td><%= user.username %></td>
+                        <td><%= user.passwd %></td>
 
-                    <button type="submit" class="btn btn-primary m-2">
-                        Submit
-                    </button>
+                        <td>
+                            <form
+                                action="/users/<%= user.userID %>/delete"
+                                method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this user?');">
 
-                </form>
-            </div>
+                                <button type="submit" class="btn btn-warning">
+                                    Delete
+                                </button>
 
-            <!-- User table on the right -->
-            <div class="col-8">
-                <table class="table table-striped">
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
 
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>User Name</th>
-                            <th>Password</th>
-                        </tr>
-                    </thead>
+        </table>
 
-                    <tbody>
-                        <% users.forEach(user => { %>
-                            <tr>
-                                <td><%= user.id %></td>
-                                <td><%= user.fname %></td>
-                                <td><%= user.lname %></td>
-                                <td><%= user.username %></td>
-                                <td><%= user.passwd %></td>
-                            </tr>
-                        <% }); %>
-                    </tbody>
-
-                </table>
-            </div>
-
-        </div>
     </div>
 
     <!-- Bootstrap JavaScript -->
